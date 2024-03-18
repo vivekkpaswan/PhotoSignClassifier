@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Photos and Signatures</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        label:hover {
+            background-color: #45a049;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        ul li {
+            color: #ff0000;
+            margin-bottom: 5px;
+        }
+
+        .file-selected-msg {
+            display: none;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Photos and Signatures</h1>
+        <form method="post" enctype="multipart/form-data" action="/result">
+          <h2>Photos</h2>
+          <label for="photo-upload" class="custom-file-upload">Choose Photo</label>
+          <input type="file" id="photo-upload" name="photos[]" multiple required onchange="displayFileName(this, document.getElementById('photo-filename'))">
+          <span id="photo-filename">No file selected</span>
+          <h2>Signatures</h2>
+          <label for="signature-upload" class="custom-file-upload">Choose Signature</label>
+          <input type="file" id="signature-upload" name="signatures[]" multiple required onchange="displayFileName(this, document.getElementById('signature-filename'))">
+          <span id="signature-filename">No file selected</span>
+          <input type="submit" value="Upload">
+      </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+      function displayFileName(input, target) {
+          const files = input.files;
+          if (files.length > 0) {
+              target.innerText = files[0].name;
+          } else {
+              target.innerText = "No file selected";
+          }
+      }
+  </script>
+</body>
+</html>
